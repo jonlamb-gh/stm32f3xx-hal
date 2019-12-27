@@ -50,6 +50,8 @@ pub use stm32f3::stm32f3x8 as stm32;
 pub use crate::stm32::interrupt;
 
 #[cfg(feature = "device-selected")]
+pub mod adc;
+#[cfg(feature = "device-selected")]
 pub mod delay;
 #[cfg(feature = "device-selected")]
 pub mod flash;
@@ -65,6 +67,8 @@ pub mod pwm;
 pub mod rcc;
 #[cfg(feature = "device-selected")]
 pub mod serial;
+#[cfg(feature = "device-selected")]
+pub mod signature;
 #[cfg(feature = "device-selected")]
 pub mod spi;
 #[cfg(feature = "device-selected")]
