@@ -8,7 +8,7 @@ use core::str::from_utf8_unchecked;
 pub const VDDA_CALIB: u32 = 3300;
 
 macro_rules! define_ptr_type {
-    ($name: ident, $ptr: expr) => (
+    ($name: ident, $ptr: expr) => {
         impl $name {
             fn ptr() -> *const Self {
                 $ptr as *const _
@@ -19,7 +19,7 @@ macro_rules! define_ptr_type {
                 unsafe { &*Self::ptr() }
             }
         }
-    )
+    };
 }
 
 /// Uniqure Device ID register
@@ -30,7 +30,7 @@ pub struct Uid {
     y: u16,
     waf_lot: [u8; 8],
 }
-define_ptr_type!(Uid, 0x1FFF_7A10);
+define_ptr_type!(Uid, 0x1FFF_F7AC);
 
 impl Uid {
     /// X coordinate on wafer
@@ -50,9 +50,7 @@ impl Uid {
 
     /// Lot number
     pub fn lot_num(&self) -> &str {
-        unsafe {
-            from_utf8_unchecked(&self.waf_lot[1..])
-        }
+        unsafe { from_utf8_unchecked(&self.waf_lot[1..]) }
     }
 }
 
@@ -60,7 +58,7 @@ impl Uid {
 #[derive(Debug)]
 #[repr(C)]
 pub struct FlashSize(u16);
-define_ptr_type!(FlashSize, 0x1FFF_7A22);
+define_ptr_type!(FlashSize, 0x1FFF_F7CC);
 
 impl FlashSize {
     /// Read flash size in kilobytes
@@ -78,7 +76,7 @@ impl FlashSize {
 #[derive(Debug)]
 #[repr(C)]
 pub struct VrefCal(u16);
-define_ptr_type!(VrefCal, 0x1FFF_7A2A);
+define_ptr_type!(VrefCal, 0x1FFF_F7BA);
 
 impl VrefCal {
     /// Read calibration value
@@ -91,7 +89,7 @@ impl VrefCal {
 #[derive(Debug)]
 #[repr(C)]
 pub struct VtempCal30(u16);
-define_ptr_type!(VtempCal30, 0x1FFF_7A2C);
+define_ptr_type!(VtempCal30, 0x1FFF_F7B8);
 
 impl VtempCal30 {
     /// Read calibration value
@@ -104,7 +102,7 @@ impl VtempCal30 {
 #[derive(Debug)]
 #[repr(C)]
 pub struct VtempCal110(u16);
-define_ptr_type!(VtempCal110, 0x1FFF_7A2E);
+define_ptr_type!(VtempCal110, 0x1FFF_F7C2);
 
 impl VtempCal110 {
     /// Read calibration value
