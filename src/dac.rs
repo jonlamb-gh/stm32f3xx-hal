@@ -9,6 +9,10 @@ pub unsafe trait Ch2OutPin<DAC> {}
 unsafe impl Ch1OutPin<DAC1> for PA4<Analog> {}
 unsafe impl Ch2OutPin<DAC1> for PA5<Analog> {}
 
+pub trait Write {
+    fn set_value(&mut self, value: u16);
+}
+
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub enum Channel {
     One,
@@ -90,8 +94,8 @@ impl<CH1PIN, CH2PIN> Dac<DAC1, (CH1PIN, CH2PIN)> {
     }
 }
 
-impl DacChannel<DAC1> {
-    pub fn set_value(&mut self, val: u16) {
+impl Write for DacChannel<DAC1> {
+    fn set_value(&mut self, val: u16) {
         let dac = unsafe { &(*DAC1::ptr()) };
 
         // NOTE: assumes 12-bit, right aligned

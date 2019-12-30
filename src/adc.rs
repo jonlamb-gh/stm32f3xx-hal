@@ -20,6 +20,10 @@ pub struct Vbat;
 /// Core temperature internal signal
 pub struct Temperature;
 
+pub trait ContinuousSample<Word> {
+    fn current_sample(&self) -> Word;
+}
+
 macro_rules! adc_pins {
     ($($pin:ty => ($adc:ident, $chan:expr)),+ $(,)*) => {
         $(
@@ -972,6 +976,12 @@ macro_rules! adc {
                     self.apply_config(self.config);
 
                     result
+                }
+            }
+
+            impl ContinuousSample<u16> for Adc<stm32::$adc_type> {
+                fn current_sample(&self) -> u16 {
+                    self.current_sample()
                 }
             }
 
