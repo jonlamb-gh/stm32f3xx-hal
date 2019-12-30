@@ -1005,10 +1005,10 @@ adc!(ADC1 => (adc1, ADC1_2, ahbenr, adc12en, ahbrstr, adc12rst));
 
 #[cfg(feature = "stm32f303")]
 adc_pins!(
-    gpioa::PA0<Analog> => (ADC1, 0),
-    gpioa::PA1<Analog> => (ADC1, 1),
-    gpioa::PA2<Analog> => (ADC1, 2),
-    gpioa::PA3<Analog> => (ADC1, 3),
+    gpioa::PA0<Analog> => (ADC1, 1),
+    gpioa::PA1<Analog> => (ADC1, 2),
+    gpioa::PA2<Analog> => (ADC1, 3),
+    gpioa::PA3<Analog> => (ADC1, 4),
     Temperature => (ADC1, 16),
     Vbat => (ADC1, 17),
     Vref => (ADC1, 18),
