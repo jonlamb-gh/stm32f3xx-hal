@@ -1,9 +1,10 @@
 //! Serial
 
+use core::fmt;
 use core::marker::PhantomData;
 use core::ptr;
 
-use crate::hal::serial;
+use crate::hal::serial::{self, Write};
 use crate::stm32::{USART1, USART2, USART3};
 use nb;
 use void::Void;
@@ -371,6 +372,20 @@ macro_rules! hal {
                 }
             }
         )+
+    }
+}
+
+impl<USART> fmt::Write for Tx<USART>
+where
+    Tx<USART>: serial::Write<u8>,
+{
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        let _ = s
+            .as_bytes()
+            .iter()
+            .map(|c| nb::block!(self.write(*c)))
+            .last();
+        Ok(())
     }
 }
 
